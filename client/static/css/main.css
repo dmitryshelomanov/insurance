@@ -1,0 +1,360 @@
+@import url('https://fonts.googleapis.com/css?family=Droid+Serif');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+body {
+    font: 400 14px/20px;
+    font-family: 'Inconsolata', monospace !important;
+}
+header {
+	position: fixed;
+	width: 100%;
+	height: 70px;
+	box-shadow: 3px 2px 10px 0px #949191;
+	z-index: 2;
+	background-color: #fff
+}
+.close {z-index: 999999 !important}
+nav ul li {
+	list-style: none;
+	float: left;
+	line-height: 70px;
+	color: #9ea8b3;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+nav ul li:not(:last-child) {
+	margin-right: 30px;
+}
+nav ul li ul {
+	position: absolute;
+	top: 60px;
+	display: block;
+	background-color: #fff !important;
+	padding: 0;
+	transition: 1s;
+    box-shadow: 0px 0px 4px 0px #272222
+}
+nav ul li ul li {
+	width: 100%;
+	padding: 15px;
+	box-sizing: border-box;
+	line-height: 10px
+}
+nav ul li ul li:hover {
+	background-color: #eee;
+}
+.button {
+	outline: none;
+	padding: 10px 40px;
+	color: #fff;
+	background-color: #e1594d;
+	border: none;
+	border-radius: 10px;
+	font-weight: bold
+}
+.button:hover {color: #fff;}
+.image-full {
+	width: 100%;
+	height: auto;
+}
+h3, h4, h5 {font-family: 'Droid Serif', serif !important;}
+h3 {
+	color: #001837;
+	font-size: 50px !important;
+	line-height: 60px !important
+}
+h4 {
+	color: #001837;
+	font-size: 25px !important;
+	line-height: 40px !important
+}
+h3 span,
+h4 span {
+	color: #e1594d;
+}
+p.refresh {
+	color: #a6a7b0;
+	font-size: 18px;
+	padding: 15px 0
+}
+h5 {
+	position: relative;
+	color: #041c3b;
+	font-size: 18px;
+	text-transform: uppercase;
+	padding: 15px 0;
+	font-weight: bold !important
+}
+h5:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100px;
+	height: 1px;
+	background-color: #e1594d
+}
+footer {
+	width: 100%;
+	height: 70px;
+	box-shadow: 3px -2px 10px 0px #949191;
+	margin-top: 50px;
+	padding: 15px;
+}
+footer i {
+	margin-right: 15px;
+}
+.comments {
+	width: 100%;
+	min-height: 300px;
+	background-color: #e1594d;
+	padding: 15px
+}
+.comments img {
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+}
+.comments p {
+	color: #fff;
+	font-style: italic;
+}
+.comments .name {
+	font-weight: bold;
+	color: #000;
+}
+.comments h4 {
+	text-transform: uppercase;
+	color: #fff;
+}
+.partners {
+	background-color: #eee;
+	padding: 15px
+}
+.up {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #d5d3e2;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	margin: 15px;
+	line-height: 50px;
+	cursor: pointer;
+	transition: 1s;
+	color: #e1594d
+}
+.up:hover {
+	box-shadow: 3px 2px 10px 0px #949191;
+	background-color: #e1594d;
+	color: #d5d3e2;
+}
+
+.settings {
+	display: block;
+	position: fixed;
+	top: 0;
+	width: 300px;
+	height: 100vh;
+	background-color: #fff;
+	z-index: 3;
+	padding: 60px 10px 10px 10px;
+	box-shadow: 3px 2px 10px 0px #949191;
+	overflow: auto;
+}
+.left {left: 0;}
+.right {right: 0;}
+.settings ul {padding: 0}
+.settings ul li {
+	cursor: pointer;
+	border-bottom: 1px solid #eee;
+	list-style: none;
+	padding: 15px 5px;
+	line-height: 15px;
+	color: #a1abb6;
+	transition: 1s;
+}
+.settings ul li:hover {
+	color: #e1594d;
+	border-bottom-color: #e1594d
+}
+.settings ul li i {margin-right: 10px}
+.settings i:hover {
+	color: #e1594d;
+}
+.auth {
+	background: #162c48;
+	width: 100%;
+	height: 100vh
+}
+.auth .modal {
+	display: block;
+	width: 480px;
+	height: 560px;
+	margin: auto;
+	position: absolute;
+    background: #fff;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 0 0 7px rgba(255,255,255,0.1);
+}
+.auth .modal form {
+	padding: 30px
+}
+.auth img {
+	width: 25px;
+	height: 25px;
+}
+.company {
+	display: block;
+	width: 100%;
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	font-weight: bold;
+	padding: 15px
+}
+.form-group {
+	position: relative;
+}
+.auth .modal i {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+}
+.auth .modal input[type="text"] {padding: 0 30px}
+.auth .modal span {
+	display: block;
+	font-weight: bold;
+	cursor: pointer;
+	padding: 5px 0;
+	text-decoration: underline;
+}
+.btn-default {color: #918888;}
+.btn i {
+	margin-right: 15px;
+}
+.btn {margin-top: 15px}
+table {
+  font-size: 14px;
+  background: white;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+th {
+  font-weight: normal;
+  color: #039;
+  border-bottom: 2px solid #6678b1;
+  padding: 10px 8px;
+}
+td {
+  border-bottom: 1px solid #ccc;
+  color: #669;
+  padding: 9px 8px;
+  transition: .3s linear;
+}
+tr:hover td{
+  color: #6699ff;
+}
+i.open {
+	position: fixed;
+	top: 0;
+	padding: 15px;
+	z-index: 5
+}
+i.open:hover {color: #e1594d;}
+.modal-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.2);
+	z-index: 6
+}
+.modal-inner {
+	position: relative;
+	display: block;
+	width: 80%;
+	height: 70%;
+	background-color: #fff;
+	margin: 5% auto;
+	border-radius: 10px;
+	padding: 15px;
+	overflow: auto;
+}
+.modal-inner span {
+	display: block;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 50px
+}
+.preloader {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: #1ce0bd url('/img/preloader.gif') center center no-repeat;
+	z-index: 9999999
+}
+#summernote img {float: left}
+.empty {
+	display: block;
+	height: 500px;
+	background-color: #eee;
+	line-height: 500px;
+	font-weight: bold
+}
+table p {cursor: pointer;}
+p.active {color: #e1594d}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-out .5s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active для <2.1.8 */ {
+  opacity: 0
+}
+.turn {
+	display: block;
+	width: 200px;
+	position: fixed;
+	bottom: 0;
+	float: left;
+	background: red;
+	height: 50px
+}
+.turn .modal-inner {
+	display: none;
+}
