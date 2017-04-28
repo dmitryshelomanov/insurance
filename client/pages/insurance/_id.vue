@@ -37,7 +37,7 @@
 			},
 			destroy () {
 				this.is_edit = false
-				this.$http.post(ipDomain + 'api/insurance/' +this.$route.params.id, 
+				this.$http.post(`${ipDomain}api/insurance/${this.$route.params.id}`, 
 					{data: $('#summernote').summernote('code')}, 
 					{headers: getHeader ()})
 					.then(response => {
@@ -48,7 +48,7 @@
 			},
 		},
 		mounted () {
-			this.$http.get(ipDomain + 'api/insurance/' +this.$route.params.id, {headers: getHeader ()})
+			this.$http.get(`${ipDomain}api/insurance/${this.$route.params.id}`, {headers: getHeader ()})
 				.then(response => {
 					if (response.status === 200) {
 						this.insurance = response.data
@@ -57,7 +57,7 @@
 		},
 		watch: {
 			'$route' () {
-				this.$http.get(ipDomain + 'api/insurance/' +this.$route.params.id)
+				this.$http.get(`${ipDomain}api/insurance/${this.$route.params.id}`)
 					.then(response => {
 						if (response.status === 200) {
 							this.insurance = response.data

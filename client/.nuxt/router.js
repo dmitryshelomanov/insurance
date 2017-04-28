@@ -6,11 +6,15 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 
-const _73f309e7 = process.BROWSER_BUILD ? () => System.import('E:\\OpenServer\\domains\\diplom\\client\\pages\\index.vue') : require('E:\\OpenServer\\domains\\diplom\\client\\pages\\index.vue')
+const _73f309e7 = () => import('E:\\OpenServer\\domains\\diplom\\client\\pages\\index.vue')
 
-const _5eb425ff = process.BROWSER_BUILD ? () => System.import('E:\\OpenServer\\domains\\diplom\\client\\pages\\auth\\index.vue') : require('E:\\OpenServer\\domains\\diplom\\client\\pages\\auth\\index.vue')
+const _0f9010b7 = () => import('E:\\OpenServer\\domains\\diplom\\client\\pages\\faq\\index.vue')
 
-const _be25414a = process.BROWSER_BUILD ? () => System.import('E:\\OpenServer\\domains\\diplom\\client\\pages\\insurance\\_id.vue') : require('E:\\OpenServer\\domains\\diplom\\client\\pages\\insurance\\_id.vue')
+const _ae4789c0 = () => import('E:\\OpenServer\\domains\\diplom\\client\\pages\\about\\index.vue')
+
+const _5eb425ff = () => import('E:\\OpenServer\\domains\\diplom\\client\\pages\\auth\\index.vue')
+
+const _be25414a = () => import('E:\\OpenServer\\domains\\diplom\\client\\pages\\insurance\\_id.vue')
 
 
 
@@ -48,6 +52,16 @@ export default new Router({
 			path: "/",
 			component: _73f309e7,
 			name: "index"
+		},
+		{
+			path: "/faq",
+			component: _0f9010b7,
+			name: "faq"
+		},
+		{
+			path: "/about",
+			component: _ae4789c0,
+			name: "about"
 		},
 		{
 			path: "/auth",

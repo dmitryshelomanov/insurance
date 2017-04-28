@@ -6,13 +6,34 @@
 				<h5>Все заказы</h5>
 				<table class="table">
 					<tr>
-						<th>#</th>
-						<th>Услуга</th>
-						<th>Имя агента</th>
-						<th>Имя заказчика</th>
-						<th>Адрес заказчика</th>
-						<th>дата заказа</th>
-						<th>Статус</th>
+						<th>
+							#
+						</th>
+						<th>
+							Услуга
+						</th>
+						<th>
+							Имя агента
+						</th>
+						<th>
+							Имя заказчика
+						</th>
+						<th>
+							Адрес заказчика
+						</th>
+						<th>
+							Дата заказа
+							<i class="fa fa-chevron-up" 
+								v-if="sortDate"
+								@click="strategySort('created_at', 'asc')"></i>
+
+							<i class="fa fa-chevron-down" 
+								v-if="!sortDate"
+								@click="strategySort('created_at', 'desc')"></i>
+						</th>
+						<th>
+							Статус
+						</th>
 					</tr>
 					<tr v-for="(item, index) in orders">
 						<td>{{ index+1 }}</td>
@@ -21,7 +42,10 @@
 						<td>{{ item.user.name }}</td>
 						<td>{{ item.user.address }}</td>
 						<td>{{ item.created_at }}</td>
-						<td @click="status(index)">{{ item.status }}</td>
+						<td @click="status(index)">
+							<i class="fa fa-ban fw" v-if="item.status === 0"></i>
+							<i class="fa fa-check-square-o" v-if="item.status"></i>
+						</td>
 					</tr>
 				</table>
 				<div class="preloader" v-show="preload"></div>
@@ -38,13 +62,15 @@
 
 <script>
 	import { ipDomain, getHeader } from '~/config.js'
+	import helperSort from '~/helpers/sort.js';	
 
 	export default {
 		data () {
 			return {
 				orders: [],
 				preload: true,
-				denied: false
+				denied: false,
+				sortDate: false
 			}
 		},
 		methods: {
@@ -58,37 +84,44 @@
 					status: null,
 				}
 				if (this.orders[index].status === 0) {
-					data.status = 1
-					this.$http.post(ipDomain + 'api/update/status/order', data, {headers: getHeader()})
+					data.status = 1;
+					this.$http.post(`${ipDomain}api/update/status/order`, data, {headers: getHeader()})
 						.then(response => {
 							if (response.status === 200) {
-								this.orders[index].status = 1
-								this.preload = false
+								this.orders[index].status = 1;
+								this.preload = false;
 							}
 						})
-					return true
+					return true;
 				}
 				data.status = 0
-				this.$http.post(ipDomain + 'api/update/status/order', data, {headers: getHeader()})
+				this.$http.post(`${ipDomain}api/update/status/order`, data, {headers: getHeader()})
 					.then(response => {
 						if (response.status === 200) {
-							this.orders[index].status = 0
-							this.preload = false
+							this.orders[index].status = 0;
+							this.preload = false;
 						}
 					})
+			},
+			sortcreated_at(){
+				this.sortDate = !this.sortDate;
+			},
+			strategySort(field, method){
+				helperSort(this.orders, field, method, this[`sort${field}`]);
 			}
 		},
 		created () {
-			this.$http.get(ipDomain + 'api/all/orders', {headers: getHeader()})
+			this.$http.get(`${ipDomain}api/all/orders`, {headers: getHeader()})
 				.then(response => {
 					if (response.status === 200) {
-						this.orders = response.data
-						this.preload = false
+						this.orders = response.data;
+						console.log(response.data);
+						this.preload = false;
 					}
 				}, error => {
 				if (error.status === 401) {
 					this.denied = true;
-					this.preload = false
+					this.preload = false;
 				}
 			})
 		}

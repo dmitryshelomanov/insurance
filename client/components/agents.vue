@@ -1,21 +1,23 @@
 <template>
 	<div>
 		<div class="container">
-			<div class="row">
-				<div class="block text-center" :class="'col-lg-' + 12/countSlide"
+			<div class="row clearfix">
+				<div class="block text-center" :class="'col-md-' + 12/countSlide"
 					 v-for="(item, index) in agents"
 					 v-show="index >= select && index < select + countSlide">
-					<img src="/img/face3.jpg" alt="">
+					<img :src="`${ipDomain}img/${item.img}`" alt="">
 					<div class="text" v-substr="item.text ">
 					</div>
 					<div class="name">
 						{{ item.name }}
 					</div>
 				</div>
-				<p>
+			</div>
+			<div class="row">
+				<div>
 					<i class="fa fa-chevron-left" @click="prev"></i>
 					<i class="fa fa-chevron-right" @click="next"></i>
-				</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -29,7 +31,8 @@
 			return {
 				agents: [],
 				select: 0,
-				countSlide: 3
+				countSlide: 3,
+				ipDomain: ''
 			}
 		},
 		methods: {
@@ -50,7 +53,8 @@
 					if (response.status === 200) {
 						this.agents = response.data
 					}
-				})
+				});
+			this.ipDomain = ipDomain;
 		}
 	}
 </script>

@@ -18,13 +18,28 @@ module.exports = {
     ]
   },
   build: {
+    babel: {
+      presets: ["es2015", "stage-0", "stage-1", "stage-2", "stage-3"],
+    },
+    loaders: [
+      {
+        test: /\js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ["es2015", "stage-0", "stage-1", "stage-2", "stage-3"],
+        }
+      }
+    ],
     vendor: [
       'vue-resource',
-      '~plugins/register.js'
-    ],
+      'helper-storage',
+      'validatores6'
+    ]
   },
   plugins: [
-    '~plugins/vue-resource.js',
-    '~plugins/register.js'
+    {src: '~plugins/vue-resource.js'},
+    {src: '~plugins/register.js'},
+    {src: '~plugins/storage.js', ssr: false},
+    {src: '~plugins/validator.js', ssr: false}
   ]
 }

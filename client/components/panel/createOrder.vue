@@ -3,6 +3,11 @@
 		<div class="modal-wrapper">
 			<div class="modal-inner">
 				<div class="close" @click="close">&times;</div>
+				<div class="alert text-danger bg-danger" v-if="errors.length > 0">
+					<ul>
+						<li v-for="item in errors">{{ item }}</li>
+					</ul>
+				</div>
 				<div class="alert bg-success text-success" v-if="messages.success">
 					{{ messages.data }}
 				</div>
@@ -61,52 +66,65 @@
 				},
 				agents: [],
 				insurance: [],
-				preload: true
+				preload: true,
+				errors: []
 			}
 		},
 		computed: {
 			price () {
 				for (let i = 0; i < this.insurance.length; i++) {
 					if (this.insurance[i].id === this.createOrder.insurance) {
-						this.createOrder.price = this.insurance[i].price * this.createOrder.duration
-						return this.insurance[i].price * this.createOrder.duration
+						this.createOrder.price = this.insurance[i].price * this.createOrder.duration;
+						return this.insurance[i].price * this.createOrder.duration;
 					}
 				}
 			}
 		},
 		methods: {
 			saveOrder () {
-				this.preload = true
-				this.$http.get(ipDomain + 'api/user', {headers: getHeader()})
+				this.$validatores6.make(this.createOrder, {
+					'insurance.страховка': 'required',
+					'agent.агент': 'required'
+				});
+				if (this.$validatores6.fails()) {
+					this.errors = this.$validatores6.getError;
+					return;
+				}
+				this.errors = [];
+				this.preload = true;
+				this.$http.get(`${ipDomain}api/user`, {headers: getHeader()})
 					.then(response => {
 						if (response.status === 200) {
-							this.createOrder.user_id = response.data.id
-							this.$http.post(ipDomain + 'api/orders', this.createOrder, {headers: getHeader()})
-								.then(response => {
-									if (response.status === 200) {
-										this.messages = response.data
-										this.preload = false
-									}
-								})
+							this.createOrder.user_id = response.data.id;
+							return true;
 						}
 					})
+					.then(user => {
+						this.$http.post(`${ipDomain}api/orders`, this.createOrder, {headers: getHeader()})
+								.then(response => {
+									if (response.status === 200) {
+										this.messages = response.data;
+										this.preload = false;
+									}
+								});
+					});
 			},
 			close () {
 				this.$emit('close')
 			}
 		},
 		created () {
-			this.$http.get(ipDomain + 'api/agents')
+			this.$http.get(`${ipDomain}api/agents`)
 			.then(response => {
 				if (response.status === 200) {
-					this.agents = response.data
-					this.$http.get(ipDomain + 'api/insurance')
-					.then(response => {
-						if (response.status === 200) {this.insurance = response.data}
-							this.preload = false
-					})
+					this.agents = response.data;
 				}
-			})
+			});
+			this.$http.get(`${ipDomain}api/insurance`)
+			.then(response => {
+				if (response.status === 200) {this.insurance = response.data}
+					this.preload = false;
+			});
 		}
 	}
 </script>

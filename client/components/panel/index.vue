@@ -41,6 +41,8 @@
 </style>
 
 <script>
+	import { ipDomain, getHeader } from '~/config.js';
+
 	export default {
 		data () {
 			return {
@@ -54,8 +56,11 @@
 		},
 		methods: {
 			logout () {
-				window.localStorage.clear()
-				this.$store.commit('userStore/SET_AUTH_USER', null)
+				this.$http.post(`${ipDomain}api/logout`, null, {headers: getHeader()})
+					.then(response => {
+						this.$storage.clear();
+						this.$store.commit('userStore/SET_AUTH_USER', null);
+					});
 			}
 		},
 		components: {

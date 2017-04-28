@@ -31,7 +31,7 @@
 						<span @click="auth.reg = false">Есть аккаунт?</span>
 						<div class="alert bg-danger text-danger" v-if="errors.register">
 							<ul>
-								<li v-for="item in errors.register">{{ item[0] }}</li>
+								<li v-for="item in errors.register">{{ item }}</li>
 							</ul>
 						</div>
 						<h4>Регистрация</h4>
@@ -109,22 +109,32 @@
 		},
 		methods: {
 			register () {
-				this.preload = true
-				this.$http.post(ipDomain + 'api/register', this.user)
+				this.$validatores6.make(this.user,{
+					'name.имя': 'required',
+					'password.пароль': 'required',
+					'login.логин': 'required',
+				});
+				if (this.$validatores6.fails()) {
+					this.errors.register = this.$validatores6.getError;
+					return;
+				}
+				this.errors.register = false;
+				this.preload = true;
+				this.$http.post(`${ipDomain}api/register`, this.user)
 					.then(responce => {
 						if (responce.status === 200) {
-							this.auth.reg = false
-							this.preload = false
+							this.auth.reg = false;
+							this.preload = false;
 						}
 					}, error => {
 						if (error.status === 400) {
-							this.errors.register = error.data
-							this.preload = false
+							this.errors.register = error.data;
+							this.preload = false;
 						}
 					})
 			},
 			logined () {
-				this.preload = true
+				this.preload = true;
 				let loginData = {
 						grant_type: 'password',
 						client_id: clientId,
@@ -133,38 +143,29 @@
 						password: this.data.password,
 						scope: ''
 					}
-				let authUser = {}
+				let authUser = {};
 
-				this.$http.post(ipDomain + 'oauth/token', loginData)
+				this.$http.post(`${ipDomain}oauth/token`, loginData)
 					.then(response => {
 						if (response.status === 200) {
-
 							authUser.access_token = response.data.access_token;
 							authUser.refresh_token = response.data.refresh_token;
-							window.localStorage.setItem('authUser', JSON.stringify(authUser));
-
-							this.$http.get(ipDomain + 'api/user', {headers: getHeader()})
+							this.$storage.add('authUser', authUser);
+							this.$http.get(`${ipDomain}api/user`, {headers: getHeader()})
 								.then(response => {
-
-									this.preload = false
-
+									this.preload = false;
 									authUser.data = response.data;
-									window.localStorage.setItem('authUser', JSON.stringify(authUser));
-
+									this.$storage.add('authUser', authUser);
 									this.$store.commit('userStore/SET_AUTH_USER', authUser)
 									this.$router.push({name: 'index'});
-
 								});
-
 						} 	
 
 					}, error => {
-
 						if (error.status === 401) {
-							this.errors.login = true
-							this.preload = false
+							this.errors.login = true;
+							this.preload = false;
 						}
-
 					});
 			}
 		}

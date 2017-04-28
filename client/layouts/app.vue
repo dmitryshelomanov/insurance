@@ -10,14 +10,13 @@
 </template>
 
 <script>
-	import { ipDomain, getHeader } from '~/config.js'
+	import { ipDomain, getHeader } from '~/config.js';
 
 	export default {
 		mounted () {
-			if (process.BROWSER_BUILD) {
-				let data = JSON.parse(window.localStorage.getItem('authUser'))
-				this.$store.commit('userStore/SET_AUTH_USER', data)
-			}
+			this.$storage.get('authUser', (e,v) => {
+				this.$store.commit('userStore/SET_AUTH_USER', v);
+			});
 		},
 		computed: {
 			authUser () {return this.$store.state.userStore.authUser}

@@ -6,6 +6,7 @@ import router from './router.js'
 import store from './store.js'
 import NuxtChild from './components/nuxt-child.js'
 import NuxtLink from './components/nuxt-link.js'
+import NuxtError from './components/nuxt-error.vue'
 import Nuxt from './components/nuxt.vue'
 import App from './App.vue'
 
@@ -19,12 +20,18 @@ Vue.component(Nuxt.name, Nuxt)
 // vue-meta configuration
 Vue.use(Meta, {
   keyName: 'head', // the component option name that vue-meta looks for meta info on.
-  attribute: 'n-head', // the attribute name vue-meta adds to the tags it observes
-  ssrAttribute: 'n-head-ssr', // the attribute name that lets vue-meta know that meta info has already been server-rendered
+  attribute: 'data-n-head', // the attribute name vue-meta adds to the tags it observes
+  ssrAttribute: 'data-n-head-ssr', // the attribute name that lets vue-meta know that meta info has already been server-rendered
   tagIDKeyName: 'hid' // the property name that vue-meta uses to determine whether to overwrite or append a tag
 })
 
-if (process.BROWSER_BUILD) {
+if (process.browser) {
+  
+  // Replace store state before calling plugins
+  if (window.__NUXT__ && window.__NUXT__.state) {
+    store.replaceState(window.__NUXT__.state)
+  }
+  
   // window.onNuxtReady(() => console.log('Ready')) hook
   // Useful for jsdom testing or plugins (https://github.com/tmpvar/jsdom#dealing-with-asynchronous-script-loading)
   window._nuxtReadyCbs = []
@@ -33,18 +40,11 @@ if (process.BROWSER_BUILD) {
   }
 }
 
-// Includes external plugins
-
-require('~plugins/vue-resource.js')
-
-require('~plugins/register.js')
-
-
 // root instance
 // here we inject the router and store to all child components,
 // making them available everywhere as `this.$router` and `this.$store`.
 const defaultTransition = {"name":"page","mode":"out-in"}
-const app = {
+let app = {
   router,
   store,
   _nuxt: {
@@ -82,4 +82,22 @@ const app = {
   ...App
 }
 
-export { app, router, store }
+
+// Includes & Inject external plugins
+
+require('~plugins/vue-resource.js')
+
+require('~plugins/register.js')
+
+if (process.browser) {
+  require('~plugins/storage.js')
+  
+}
+
+if (process.browser) {
+  require('~plugins/validator.js')
+  
+}
+
+
+export { app, router, store, NuxtError }

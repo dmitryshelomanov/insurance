@@ -8,11 +8,13 @@
 							<li>
 								<nuxt-link	:to="{name: 'index'}">Главная</nuxt-link>
 							</li>
-							<li>About us</li>
+							<li>
+								<nuxt-link	:to="{name: 'about'}">О нас</nuxt-link>
+							</li>
 							<li @click="showChild">
-								Insurance
+								Страховка
 								<ul class="clearfix" v-show="child">
-									<li @contextmenu.prevent="test (item.id, index)" v-for="(item, index) in insurance">
+									<li @contextmenu.prevent="deleted(item.id, index)" v-for="(item, index) in insurance">
 										<nuxt-link	:to="{name: 'insurance-id', 
 													params: {id: item.id}}">
 											{{ item.name }}
@@ -20,7 +22,9 @@
 									</li>
 								</ul>
 							</li>
-							<li>FAQ</li>
+							<li>
+								<nuxt-link	:to="{name: 'faq'}">Помощь</nuxt-link>
+							</li>
 							<li v-show="!authUser.auth">
 								<nuxt-link	:to="{name: 'auth'}" class="button">Вход</nuxt-link>
 							</li>
@@ -59,8 +63,11 @@
 					}
 				})
 			},
-			test (id, index) {
-				this.insurance.splice(index, 1)
+			deleted (id, index) {
+				// this.$http.post(``, id, {headers: getHeader()})
+				// 	.then(response => {
+				// 		this.insurance.splice(index, 1);
+				// 	});
 			}
 		}
 	}

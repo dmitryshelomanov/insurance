@@ -15,7 +15,8 @@ class AgentController extends Controller
         $data = Agent::insert([
             'name' => $request->name,
             'text' => $request->text,
-            'phone' => $request->phone
+            'phone' => $request->phone,
+            'img' => $request->img
         ]);
         if ($data) {
             return response()->json([

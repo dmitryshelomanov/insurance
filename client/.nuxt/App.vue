@@ -10,9 +10,9 @@ import NuxtLoading from './components/nuxt-loading.vue'
 
 let layouts = {
 
-  "_app": process.BROWSER_BUILD ? () => System.import('E:\\OpenServer\\domains\\diplom\\client\\layouts\\app.vue') : require('E:\\OpenServer\\domains\\diplom\\client\\layouts\\app.vue'),
+  "_app": () => import('E:\\OpenServer\\domains\\diplom\\client\\layouts\\app.vue'),
 
-  "_default": process.BROWSER_BUILD ? () => System.import('E:\\OpenServer\\domains\\diplom\\client\\node_modules\\nuxt\\dist\\app\\layouts\\default.vue') : require('E:\\OpenServer\\domains\\diplom\\client\\node_modules\\nuxt\\dist\\app\\layouts\\default.vue')
+  "_default": () => import('E:\\OpenServer\\domains\\diplom\\client\\node_modules\\nuxt\\dist\\app\\layouts\\default.vue')
 
 }
 
@@ -33,18 +33,19 @@ export default {
       if (!layout || !layouts['_' + layout]) layout = 'default'
       this.layoutName = layout
       let _layout = '_' + layout
-      if (typeof layouts[_layout] === 'function') {
-        return this.loadLayout(_layout)
-      }
       this.layout = layouts[_layout]
-      return Promise.resolve(this.layout)
+      return this.layout
     },
-    loadLayout (_layout) {
+    loadLayout (layout) {
+      if (!layout || !layouts['_' + layout]) layout = 'default'
+      let _layout = '_' + layout
+      if (typeof layouts[_layout] !== 'function') {
+        return Promise.resolve(layouts[_layout])
+      }
       return layouts[_layout]()
       .then((Component) => {
         layouts[_layout] = Component
-        this.layout = layouts[_layout]
-        return this.layout
+        return layouts[_layout]
       })
       .catch((e) => {
         if (this.$nuxt) {

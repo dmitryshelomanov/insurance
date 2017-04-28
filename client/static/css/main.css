@@ -60,7 +60,7 @@ nav ul li ul li:hover {
 h3, h4, h5 {font-family: 'Droid Serif', serif !important;}
 h3 {
 	color: #001837;
-	font-size: 50px !important;
+	font-size: 40px !important;
 	line-height: 60px !important
 }
 h4 {
@@ -162,6 +162,9 @@ footer i {
 	padding: 60px 10px 10px 10px;
 	box-shadow: 3px 2px 10px 0px #949191;
 	overflow: auto;
+}
+.settings p, table {
+	max-width: 100%;
 }
 .left {left: 0;}
 .right {right: 0;}
@@ -278,20 +281,20 @@ i.open:hover {color: #e1594d;}
 .modal-inner {
 	position: relative;
 	display: block;
-	width: 80%;
-	height: 70%;
+	width: 95%;
+	height: 90%;
 	background-color: #fff;
-	margin: 5% auto;
+	margin: 2% auto;
 	border-radius: 10px;
 	padding: 15px;
 	overflow: auto;
 }
-.modal-inner span {
+/*.modal-inner span {
 	display: block;
 	font-weight: bold;
 	font-size: 16px;
 	line-height: 50px
-}
+}*/
 .preloader {
 	position: absolute;
 	width: 100%;
@@ -358,3 +361,11 @@ p.active {color: #e1594d}
 .turn .modal-inner {
 	display: none;
 }
+
+.refresh iframe {
+	max-width: 100%;
+}
+.refresh img {
+	max-width: 100%;
+}
+i {cursor: pointer}

@@ -15,6 +15,11 @@ return array(
     |
     */
 
-    'driver' => 'gd'
+    'driver' => 'gd',
+    'mime' => [
+        "image/png" => 1,
+        "image/jpeg" => 1,
+        "image/gif" => 1
+    ]
 
 );

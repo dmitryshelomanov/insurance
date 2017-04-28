@@ -1,4 +1,18 @@
 'use strict'
+import { app } from './index'
+
+const noopData = () => ({})
+
+export function applyAsyncData (Component, asyncData = {}) {
+  const ComponentData = Component.options.data || noopData
+  Component.options.data = function () {
+    const data =  ComponentData.call(this)
+    return { ...data, ...asyncData }
+  }
+  if (Component._Ctor && Component._Ctor.options) {
+    Component._Ctor.options.data = Component.options.data
+  }
+}
 
 export function getMatchedComponents (route) {
   return [].concat.apply([], route.matched.map(function (m) {
@@ -28,7 +42,7 @@ export function getContext (context) {
   let ctx = {
     isServer: !!context.isServer,
     isClient: !!context.isClient,
-    isDev: true,
+    isDev: false,
     store: context.store,
     route: (context.to ? context.to : context.route),
     error: context.error,
@@ -55,6 +69,12 @@ export function getContext (context) {
   }
   if (context.req) ctx.req = context.req
   if (context.res) ctx.res = context.res
+  // Inject external plugins in context
+  
+  
+  
+  
+  
   return ctx
 }
 
@@ -84,7 +104,7 @@ export function promisify (fn, context) {
   } else {
     promise = fn(context)
   }
-  if (!(promise instanceof Promise)) {
+  if (!promise || (!(promise instanceof Promise) && (typeof promise.then !== 'function'))) {
     promise = Promise.resolve(promise)
   }
   return promise

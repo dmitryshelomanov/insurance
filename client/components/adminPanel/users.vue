@@ -7,12 +7,38 @@
 				<table class="table">
 					<tr>
 						<th>#</th>
-						<th>Имя</th>
-						<th>Телефон</th>
-						<th>Адрес</th>
-						<th>Паспорт</th>
-						<th>Регистрация</th>
-						<th>Права</th>
+						<th>
+							Имя
+							<i class="fa fa-chevron-up" 
+								v-if="sortName"
+								@click="strategySort('name', 'asc')"></i>
+
+							<i class="fa fa-chevron-down" 
+								v-if="!sortName"
+								@click="strategySort('name', 'desc')"></i>
+						</th>
+						<th>
+							Телефон
+						</th>
+						<th>
+							Адрес
+						</th>
+						<th>
+							Паспорт
+						</th>
+						<th>
+							Регистрация
+							<i class="fa fa-chevron-up" 
+								v-if="sortDate"
+								@click="strategySort('created_at', 'asc')"></i>
+
+							<i class="fa fa-chevron-down" 
+								v-if="!sortDate"
+								@click="strategySort('created_at', 'desc')"></i>
+						</th>
+						<th>
+							Права
+						</th>
 					</tr>
 					<tr v-for="(item, index) in users">
 						<td>{{ index+1}}</td>
@@ -45,17 +71,18 @@
 	</transition>
 </template>
 
-
-
 <script>
 	import { ipDomain, getHeader } from '~/config.js'
-
+	import helperSort from '~/helpers/sort.js';
+	
 	export default {
 		data () {
 			return {
 				users: [],
 				preload: true,
-				denied: false
+				denied: false,
+				sortName: false,
+				sortDate: false
 			}
 		},
 		computed: {
@@ -67,7 +94,7 @@
 			},
 			update (role, id, index) {
 				this.preload = true
-				this.$http.post(ipDomain + 'api/status', {role: role, id: id}, {headers: getHeader()})
+				this.$http.post(`${ipDomain}api/status`, {role: role, id: id}, {headers: getHeader()})
 					.then(response => {
 						if (response.status === 200) {
 							this.users[index].role = role
@@ -79,21 +106,30 @@
 							this.preload = false
 						}
 					})
+			},
+			sortname(){
+				this.sortName = !this.sortName;
+			},
+			sortcreated_at(){
+				this.sortDate = !this.sortDate;
+			},
+			strategySort(field, method){
+				helperSort(this.users, field, method, this[`sort${field}`]);
 			}
 		},
 		created () {
-			this.$http.get(ipDomain + 'api/users', {headers: getHeader()})
+			this.$http.get(`${ipDomain}api/users`, {headers: getHeader()})
 				.then(response => {
 					if (response.status === 200) {
-						this.users = response.data
-						this.preload = false
+						this.users = response.data;
+						this.preload = false;
 					}
 				}, error => {
 					if (error.status === 401) {
 						this.denied = true;
-						this.preload = false
+						this.preload = false;
 					}
-				})
+				});
 		}
 	}
 </script>

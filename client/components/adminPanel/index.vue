@@ -17,6 +17,9 @@
 					<li @click="show.allUsers = true">
 						<i class="fa fa-users"></i>Пользователи
 					</li>
+					<li @click="show.news = true">
+						<i class="fa fa-newspaper-o"></i>Добавить новость
+					</li>
 					<li @click="logout">
 						<i class="fa fa-sign-in"></i> Выход
 					</li>
@@ -27,6 +30,7 @@
 		<orders v-if="show.allOrders" @close="show.allOrders = false"/>
 		<addAgent v-if="show.agent" @close="show.agent = false"/>
 		<add-insurance v-if="show.insurance" @close="show.insurance = false"/>
+		<add-news v-if="show.news" @close="show.news = false"></add-news>
 	</div>
 </template>
 
@@ -56,20 +60,25 @@
 					allOrders: false,
 					agent: false,
 					insurance: false,
+					news: false
 				}
 			}
 		},
 		methods: {
 			logout () {
-				window.localStorage.setItem('authUser', null);
-				this.$store.commit('userStore/SET_AUTH_USER', null)
+				this.$http.post(`${ipDomain}api/logout`, null, {headers: getHeader()})
+					.then(response => {
+						this.$storage.clear();
+						this.$store.commit('userStore/SET_AUTH_USER', null);
+					});
 			}
 		},
 		components: {
 			users: require('./users.vue'),
 			orders: require('./allOrders.vue'),
 			addAgent: require('./addAgent.vue'),
-			addInsurance: require('./addInsurance.vue')
+			addInsurance: require('./addInsurance.vue'),
+			addNews: require('./addNews.vue')
 		}
 	}
 </script>

@@ -41,19 +41,10 @@
 				this.$emit('close')
 			},
 			add () {
-				this.$http.get(ipDomain + 'api/user', {headers: getHeader()})
+				this.$http.post(`${ipDomain}api/add/insurance`, this.insurance, {headers: getHeader ()})
 					.then(response => {
-						if (response.status === 200 && response.data.role === 1) {
-							this.$http.post(ipDomain + 'api/add/insurance', this.insurance, {headers: getHeader ()})
-								.then(response => {
-									if (response.status === 200) {
-										this.message = response.data
-									}
-								})
-						} else if (response.status === 200 && response.data.role === 0) {
-							this.$router.push({name: 'auth'});
-							window.localStorage.setItem('authUser', null);
-							this.$store.commit('userStore/SET_AUTH_USER', null)
+						if (response.status === 200) {
+							this.message = response.data
 						}
 					})
 			}
